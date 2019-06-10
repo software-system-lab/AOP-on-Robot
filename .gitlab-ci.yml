@@ -1,7 +1,10 @@
-py36_test:
-  image: python:3.6
+stages:
+    - test
+
+tests:
+  stage: test
   script:
-    - apt-get update -q -y
+    - pip install --upgrade pip
     - pip install -r requirements.txt
     - python -m doctest -v aspect/action.py
     - python aspect/actionTest.py -v

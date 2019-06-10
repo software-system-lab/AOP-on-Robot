@@ -1,0 +1,12 @@
+*.pyo
+*.pyc
+*~
+*.libspec
+.project
+.pydevproject
+*/log.html
+*/output.xml
+*/report.html
+selenium-screenshot-*.png
+/libspecs/
+*.pickle

@@ -33,7 +33,7 @@ class PointCut:
     def is_satisfied(self, when, what, args, status=None):
         """
         >>> PointCut('pre', 'BuildIn.*').is_satisfied('pre', 'BuildIn.Should Be Equal', [])
-        True
+        False
         >>> PointCut('pre', 'BuildIn.*').is_satisfied('post', 'BuildIn.Should Be Equal', [], 'fail')
         False
         >>> PointCut('post', 'BuildIn.*').is_satisfied('post', 'BuildIn.Should Be Equal', [], 'fail')

@@ -25,9 +25,8 @@ User Name Should Be Shown On Main Page
 
 *** Variables ***
 &{userAmy} =   account=amyautomationtest@gmail.com    password=testAccountPassword    name=testAccount
-${twitterURL} =   https://twitter.com/
+${twitterURL} =   https://twitter.com/?lang=zh-tw
 ${browser} =    Chrome
-
 
 ${loginButton} =    *[contains(@class,'buttonLogin') and normalize-space()='登入']
 ${userField} =    *[contains(@class,'username-field')]

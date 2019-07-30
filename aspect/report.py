@@ -1,5 +1,4 @@
 import xml.etree.ElementTree as ET
-from nt import remove
 
 class Report:
     

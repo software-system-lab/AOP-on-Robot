@@ -2,7 +2,6 @@
 <projectConfiguration>
     <configVersion>2</configVersion>
     <relativeTo>WORKSPACE</relativeTo>
-    <referencedLibrary type="PYTHON" name="fbLibrary" path=""/>
     <referencedLibrary type="PYTHON" name="SeleniumLibrary" path=""/>
     <pythonpath/>
     <classpath/>

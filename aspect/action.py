@@ -152,17 +152,17 @@ class Advice:
 
 class ActionController:
     def __init__(self):
-        self.library, self.aspect_paser = self.read_objects_in_pickle()
-        self.ass_keywords = set()
-#         self.library = KeywordLibrarysLoader()
-#         self.aspect_paser = AspectParser()
+#       self.library, self.aspect_paser = self.read_objects_in_pickle()
+        self.akw_keywords = set()
+        self.library = KeywordLibraryLoader()
+        self.aspect_paser = AspectParser()
     
     def read_objects_in_pickle(self):
         if os.path.isfile('listener.pickle'):
             with open('listener.pickle', "rb") as f:
                 return pickle.load(f), pickle.load(f)
         else:
-            library_object = KeywordLibrarysLoader()
+            library_object = KeywordLibraryLoader()
             aspect_object = AspectParser()
             with open('listener.pickle', 'wb') as f:
                 pickle.dump(library_object, f)
@@ -182,7 +182,7 @@ class ActionController:
         
     def run_keywords(self, keyword_list, args):
         for keyword, need_args, kw_args in keyword_list:
-            self.ass_keywords.add(keyword)
+            self.akw_keywords.add(keyword)
             if need_args and kw_args:
                 BuiltIn().run_keyword(keyword, args[0], kw_args)
             elif need_args:
@@ -193,9 +193,9 @@ class ActionController:
                 BuiltIn().run_keyword(keyword)
 
     def get_all_run_ass_keywords(self):
-        return self.ass_keywords
+        return self.akw_keywords
 
-class KeywordLibrarysLoader():
+class KeywordLibraryLoader():
     def __init__(self):
         self.builtin = BuiltIn()
         self.library_name = self.get_all_library_name()
@@ -217,8 +217,8 @@ class KeywordLibrarysLoader():
     
     def get_all_resource_path(self):
         project_path = os.path.dirname(os.path.abspath(os.path.join(__file__, os.pardir)))
-        all_resource_path = (glob.glob(project_path + "\*_akw.robot") 
-                             + glob.glob(project_path + "\*_akw.txt"))
+        full_path = os.path.join(project_path, '*_akw.robot')
+        all_resource_path = glob.glob(full_path)
         return [resource_path.replace("\\","/") for resource_path in all_resource_path]
         
     def import_related_resources_and_librarys(self):

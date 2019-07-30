@@ -1,7 +1,18 @@
 import unittest
 import json
 from action import AspectParser
+from action import KeywordLibraryLoader
 from unittest.mock import patch
+
+class TestKeywordLibraryLoader(unittest.TestCase):
+
+    def test_getAllResourcePath(self):
+        library_loader = KeywordLibraryLoader()
+        get_path = library_loader.get_all_resource_path()
+        
+        self.assertGreater(len(get_path), 0, 'Did not get any resource path.')
+        self.assertRegex(get_path[0], '_akw.robot$', 'File name should end with _akw.robot')
+        
 
 class TestPaserAspect(unittest.TestCase):
     

@@ -1,5 +1,7 @@
 *** Settings ***
 Library    SeleniumLibrary
+Library    twitterLibrary
+Resource    ./locators/twitter.robot
 Test Setup    Open Browser    ${twitterURL}    ${browser}
 Test Teardown    Close Browser
 
@@ -11,25 +13,14 @@ Login To Twitter With Valid User
 
 *** Keywords ***
 Go To Login Page
-    Click Element    xpath://${loginButton}
+    Click Element    xpath://${toLoginButton}
 
 User Login
     [Arguments]    &{user}
     Input Text    xpath://${userField}    ${user['account']}
     Input Text    xpath://${passwordField}    ${user['password']}
-    Click Element   xpath://button[normalize-space()='登入']
+    Click Element   xpath://${loginButton}
 
 User Name Should Be Shown On Main Page
     [Arguments]    ${userName}
-    Element Should Be Visible    xpath://${dashBoardProfileCard}//*[text()='${userName}']
-
-*** Variables ***
-&{userAmy} =   account=amyautomationtest@gmail.com    password=testAccountPassword    name=testAccount
-${twitterURL} =   https://twitter.com/?lang=zh-tw
-${browser} =    Chrome
-
-${loginButton} =    *[contains(@class,'buttonLogin') and normalize-space()='登入']
-${userField} =    *[contains(@class,'username-field')]
-${passwordField} =    input[@type='password' and contains(@class,'password-field')]
-${dashBoardProfileCard} =   *[contains(@class,'DashboardProfileCard')]
-${navBar} =    *[@class='global-nav-inner']
+    Element Should Be Visible    xpath://${userAvatar}

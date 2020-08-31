@@ -1,0 +1,10 @@
+[
+ { 
+   "pointcut":{"when":"post", "what":"Go To Login Page"},
+   "advice":{"keyword":"Wait Until Login Page Is Opened"}
+ },{ 
+   "pointcut":{"when":"pre", "what":"User Name Should Be Shown On Main Page"},
+   "advice":{"keyword":"Wait Until Main Page Is Opened"}
+ }
+]
+

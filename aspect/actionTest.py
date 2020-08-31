@@ -1,24 +1,25 @@
-import unittest
 import json
-from action import AspectParser
-from action import KeywordLibraryLoader
+import unittest
 from unittest.mock import patch
+
+from action import AspectParser, KeywordLibraryLoader
+
 
 class TestKeywordLibraryLoader(unittest.TestCase):
 
     def test_getAllResourcePath(self):
         library_loader = KeywordLibraryLoader()
         get_path = library_loader.get_all_resource_path()
-        
+
         self.assertGreater(len(get_path), 0, 'Did not get any resource path.')
         self.assertRegex(get_path[0], '_akw.robot$', 'File name should end with _akw.robot')
-        
+
 
 class TestPaserAspect(unittest.TestCase):
-    
+
     def test_onePreAspectWihBasedFormat(self):
         with patch('__main__.AspectParser.read_aspect_files') as fake_data:
-             
+
             fake_data.return_value = [
                 {
                     "pointcut":{"when": "pre", "what":"Open Main Page And Login"},
@@ -26,7 +27,7 @@ class TestPaserAspect(unittest.TestCase):
                 }
             ]
             parse = AspectParser()
-             
+
             self.assertEqual(len(parse.pre_action_map), 1)
             self.assertEqual(len(parse.post_action_map), 0)
             self.assertEqual(parse.pre_action_map[0]['pointcut'].when, 'pre')
@@ -86,7 +87,7 @@ class TestPaserAspect(unittest.TestCase):
 
             fake_data.return_value = [
                 {
-                    "pointcut":{"when": "pre", "what":"SeleniumLibrary.Click Element"}, 
+                    "pointcut":{"when": "pre", "what":"SeleniumLibrary.Click Element"},
                     "advice":{"keyword":"Wait Until Element Is Shown On page", "locatorSameAsPointcut":True}
                 }
             ]

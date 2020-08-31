@@ -10,3 +10,4 @@
 selenium-screenshot-*.png
 /libspecs/
 *.pickle
+out

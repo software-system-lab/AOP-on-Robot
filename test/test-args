@@ -1,0 +1,4 @@
+-d ./out
+-P ./libs
+-P ./..
+--listener aspect.actionListener

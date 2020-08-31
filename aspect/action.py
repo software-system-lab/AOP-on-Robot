@@ -1,13 +1,15 @@
-import json
 import glob
-import re
-import xml.etree.ElementTree
-import os
-import sys
-from robot.libraries.BuiltIn import BuiltIn
+import json
 import logging
+import os
 import pickle
+import re
+import sys
 import unittest
+import xml.etree.ElementTree
+
+from robot.libraries.BuiltIn import BuiltIn
+
 logger = logging.getLogger()
 
 class PointCut:
@@ -18,7 +20,7 @@ class PointCut:
         self.status = status
         if self.status:
             self.status = self.status.upper()
-    
+
     def __setattr__(self, name, value):
         if name == 'when' and (not isinstance(value, str) or value not in ['pre', 'post', '*']):
             raise ValueError('when: "%s" does not correspond required format!' % value)
@@ -29,7 +31,7 @@ class PointCut:
         if name == 'status' and value is not None and (not isinstance(value, str) or value.upper() not in ['PASS', 'FAIL']):
             raise ValueError('status: "%s" does not correspond required format (PASS or FAIL).' % value)
         object.__setattr__(self, name, value)
-    
+
     def is_satisfied(self, when, what, args, status=None):
         """
         >>> PointCut('pre', 'BuildIn.*').is_satisfied('pre', 'BuildIn.Should Be Equal', [])
@@ -60,24 +62,24 @@ class PointCut:
         False
         >>> PointCut('post', '@(?!fbSeleniumLibrary\..+)').is_satisfied('post', 'BuildIn.Should Be Equal', [])
         True
-        
+
         Below are the examples with arguments:
         >>> PointCut('pre', 'BuiltIn.Log To Console', args=['test']).is_satisfied('pre', 'BuiltIn.Log To Console', ['test'])
         True
-        
+
         Support '|'(or) operator:
         >>> PointCut('pre', 'BuiltIn.Log To Console', args=['test|haha']).is_satisfied('pre', 'BuiltIn.Log To Console', ['haha'])
         True
-        
+
         >>> PointCut('pre', 'BuiltIn.Log To Console', args=['test']).is_satisfied('pre', 'BuiltIn.Log To Console', ['haha'])
         False
-        
+
         Poincut defined amount of argement cannot more than the arugement of keyword:
         >>> PointCut('pre', 'BuiltIn.Log To Console', args=['a1', 'a2']).is_satisfied('pre', 'BuiltIn.Log To Console', ['haha'])
         Traceback (most recent call last):
            ...
         ValueError: Argus size of pointcut should not larger than keyword defined argus size.
-        
+
         Support poincut located more than one arguments:
         >>> PointCut('pre', 'BuiltIn.Should Be Equal', args=['a1', 'a1']).is_satisfied('pre', 'BuiltIn.Should Be Equal', ['a1', 'a1'])
         True
@@ -85,13 +87,13 @@ class PointCut:
         True
         >>> PointCut('pre', 'BuiltIn.Should Be Equal', args=['a1', 'a2']).is_satisfied('pre', 'BuiltIn.Should Be Equal', ['a1', 'a1'])
         False
-        
+
         Type of Array and Dictionary also can be supported, the data needs to match order.
         """
         if self.args:
             return self.kw_is_satisfied(when, what, status) and self.args_is_satisfied(args)
         return self.kw_is_satisfied(when, what, status)
-     
+
     def args_is_satisfied(self, args):
         actual_args = self.args_convert_to_actual_value(args)
         return self._match_args(actual_args)
@@ -99,7 +101,7 @@ class PointCut:
     def _match_args(self, actual_args):
         if len(self.args) > len(actual_args):
             raise ValueError("Argus size of pointcut should not larger than keyword defined argus size.")
-        
+
         for point_arg, actual_arg in zip(self.args, actual_args):
             actual_arg = self._convert_to_string(actual_arg)
             if re.match("^%s$" % point_arg
@@ -108,25 +110,25 @@ class PointCut:
                                 .replace(' ', ''), actual_arg) is None: return False
         return True
 
-    def _convert_to_string(self, actual_arg):  #For format of dict and list 
+    def _convert_to_string(self, actual_arg):  #For format of dict and list
         if isinstance(actual_arg, list):
             return '[' + ','.join(actual_arg) + ']'
         if isinstance(actual_arg, dict):
             return "{" +",".join(("{}:{}".format(*i) for i in actual_arg.items())) + "}"
         return actual_arg
-        
+
     def _take_arg_value(self, arg):
         return BuiltIn().get_variable_value(arg) if \
                re.match('^(\$|@|&){[\w]+}$', arg) else arg
-   
-    def args_convert_to_actual_value(self, args):  
+
+    def args_convert_to_actual_value(self, args):
         return [self._take_arg_value(arg) for arg in args]
-    
+
     def kw_is_satisfied(self, when, what, status=None):
         if self.status:
             return re.match(self.when.replace('*', '.*'), when) != None and self.__match_what(what) and self.status == status.upper()
         return re.match(self.when.replace('*', '.*'), when) != None and self.__match_what(what)
- 
+
     def __match_what(self, what):
         if self.what.startswith("@"):
             return re.match(self.what[1:], what) != None
@@ -142,11 +144,11 @@ class Advice:
         self.kw_args = kw_args
 
     def __setattr__(self, name, value):
-        if name is 'keyword' and not isinstance(value, str):
+        if name == 'keyword' and not isinstance(value, str):
             raise ValueError('keyword: "%s" is not string type!' % value)
-        if name is 'priority' and not isinstance(value, int):
+        if name == 'priority' and not isinstance(value, int):
             raise ValueError('priority: "%s" is not integer type!' % value)
-        if name is 'locator_same_as_pointcut' and not isinstance(value, bool):
+        if name == 'locator_same_as_pointcut' and not isinstance(value, bool):
             raise ValueError('locatorSameAsPointcut: "%s" is not boolean type!' % value)
         object.__setattr__(self, name, value)
 
@@ -156,7 +158,7 @@ class ActionController:
         self.akw_keywords = set()
         self.library = KeywordLibraryLoader()
         self.aspect_paser = AspectParser()
-    
+
     def read_objects_in_pickle(self):
         if os.path.isfile('listener.pickle'):
             with open('listener.pickle', "rb") as f:
@@ -168,18 +170,18 @@ class ActionController:
                 pickle.dump(library_object, f)
                 pickle.dump(aspect_object, f)
         return library_object, aspect_object
-        
+
     def load_keywords(self):
         self.library.import_related_resources_and_librarys()
-    
+
     def pre_do(self, when, what, args):
         keyword_list = self.aspect_paser.search_in_pre_action_map(when, what, args)
         self.run_keywords(keyword_list, args)
-    
+
     def post_do(self, when, what, status, args):
         keyword_list = self.aspect_paser.search_in_post_action_map(when, what, args, status)
         self.run_keywords(keyword_list, args)
-        
+
     def run_keywords(self, keyword_list, args):
         for keyword, need_args, kw_args in keyword_list:
             self.akw_keywords.add(keyword)
@@ -200,13 +202,13 @@ class KeywordLibraryLoader():
         self.builtin = BuiltIn()
         self.library_name = self.get_all_library_name()
         self.resouce_path = self.get_all_resource_path()
-    
+
     def parse_library_reference_files(self, file_name):
         if not any(glob.glob(file_name)):
             raise FileNotFoundError
         return (xml.etree.ElementTree.parse(glob.glob(file_name)[0]).
                 getroot().findall('referencedLibrary'))
-        
+
     def get_all_library_name(self):
         library_name = []
         for elem in self.parse_library_reference_files('./red.xml'):
@@ -214,17 +216,17 @@ class KeywordLibraryLoader():
                 continue
             library_name.append(elem.get('name'))
         return library_name
-    
+
     def get_all_resource_path(self):
-        project_path = os.path.dirname(os.path.abspath(os.path.join(__file__, os.pardir)))
+        project_path = os.getcwd()
         full_path = os.path.join(project_path, '*_akw.robot')
         all_resource_path = glob.glob(full_path)
         return [resource_path.replace("\\","/") for resource_path in all_resource_path]
-        
+
     def import_related_resources_and_librarys(self):
         [self.load_library(path) for path in self.library_name]
         [self.builtin.import_resource(path) for path in self.resouce_path]
-    
+
     def load_library(self, library_name):
         try:
             self.builtin.get_library_instance(library_name)
@@ -235,11 +237,11 @@ class AspectParser():
     def __init__(self):
         self.data = self.read_aspect_files()
         self.pre_action_map, self.post_action_map = self.separate_action_as_pre_and_post_map()
-    
+
     def read_aspect_files(self):
         aspect_files = glob.glob('*_aspect.json')   #../*_aspect.json
         return [file_data for file in aspect_files for file_data in self.read_aspect_file(file)]
-     
+
     def read_aspect_file(self, aspect_file_name):
         with open(aspect_file_name, encoding="utf-8") as f:
             try:
@@ -254,7 +256,7 @@ class AspectParser():
         pre_action_map = []
         post_action_map = []
         for action in self.data:
-            
+
             pointcut = PointCut(**action['pointcut'])
             advice = Advice(**action['advice'])
 

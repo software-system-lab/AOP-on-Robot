@@ -1,4 +1,4 @@
-[{ 
+[{
    "pointcut":{"when":"post", "what":"Open Brower And Login"},
    "advice":{"keyword":"Wait Until Main Page Is Opened"}
 },{
@@ -16,15 +16,12 @@
 }, {
    "pointcut":{"when":"pre", "what":"SeleniumLibrary.Input Text"},
    "advice":{"keyword":"Wait Until Input Field Is Enable", "locatorSameAsPointcut":true}
-}, { 
+}, {
     "pointcut":{"when":"pre", "what":"SeleniumLibrary.Click Element"},
     "advice":{"keyword":"Wait Until Element Is Shown On Page", "locatorSameAsPointcut":true}
-},{ 
+},{
     "pointcut":{"when":"post", "what":"Edit Profile"},
     "advice":{"keyword":"Wait Until Profile Is Saved"}
-},{ 
-    "pointcut":{"when":"post", "what":"Fillin Field", "args":["地點"]},
-    "advice":{"keyword":"Wait Until Profile Geo Dropdown Is Opened"}
 }]
 
 

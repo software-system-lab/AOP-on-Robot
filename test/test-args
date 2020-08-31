@@ -1,4 +1,5 @@
 -d ./out
 -P ./libs
 -P ./..
+-b debug.txt
 --listener aspect.actionListener

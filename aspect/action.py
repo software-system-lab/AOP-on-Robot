@@ -99,9 +99,6 @@ class PointCut:
         return self._match_args(actual_args)
 
     def _match_args(self, actual_args):
-        if len(self.args) > len(actual_args):
-            raise ValueError("Argus size of pointcut should not larger than keyword defined argus size.")
-
         for point_arg, actual_arg in zip(self.args, actual_args):
             actual_arg = self._convert_to_string(actual_arg)
             if re.match("^%s$" % point_arg

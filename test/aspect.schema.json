@@ -1,0 +1,98 @@
+{
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "array",
+    "additionalItems": false,
+    "uniqueItems": true,
+    "items": {
+      "type": "object",
+      "required": [
+        "pointcut",
+        "advice"
+      ],
+      "properties": {
+        "pointcut": {
+          "type": "object",
+          "required": [
+            "when",
+            "what"
+          ],
+          "properties": {
+            "when": {
+              "type": "string",
+              "enum": [
+                "pre",
+                "post",
+                "*"
+              ]
+            },
+            "what": {
+              "type": [
+                "string",
+                "regex"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "PASS",
+                "FAIL"
+              ]
+            },
+            "args": {
+              "type": "array",
+              "additionalItems": false,
+              "items": {
+                "type": [
+                  "string",
+                  "regex"
+                ]
+              }
+            }
+          }
+        },
+        "advice": {
+          "type": "object",
+          "required": [
+            "keyword"
+          ],
+          "properties": {
+            "keyword": {
+              "type": "string"
+            },
+            "kw_args": {
+              "type": "array",
+              "additionalItems": false,
+              "items": {
+                "type": [
+                  "string",
+                  "regex",
+                  "number"
+                ]
+              }
+            },
+            "priority": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  },
+  "example": [
+    {
+      "pointcut": { "what": "Go To Login Page", "when": "pre" },
+      "advice": {
+        "keyword": "Wait Until Element Is Visible",
+        "kw_args": ["id:loginButton"]
+      }
+    },
+    {
+      "pointcut": { "what": "Element Should Be .+", "when": "pre" },
+      "advice": {
+        "keyword": "Wait Until Element Is Visible",
+        "locatorSameAsPointcut": true
+      }
+    }
+  ]
+}

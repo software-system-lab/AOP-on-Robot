@@ -29,7 +29,7 @@ Example
 
 We provide [twitter_valid_user_login.robot](./twitter_valid_user_login.robot) sample test case.
 
-You can run `"robot -d ./out --listener aspect/actionListener.py twitter_valid_user_login.robot"` in command line directly.
+You can run `"robot -d ./out --listener aspect.actionListener.py twitter_valid_user_login.robot"` in command line directly.
 
 > The command above **-d ./out** means put all output file (e.g report, log...) in the out folder.
 >

@@ -11,3 +11,8 @@ selenium-screenshot-*.png
 /libspecs/
 *.pickle
 out
+.pypric
+dist
+build
+*.egg-info
+__pycache__

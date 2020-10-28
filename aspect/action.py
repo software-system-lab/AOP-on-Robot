@@ -134,9 +134,9 @@ class PointCut:
         return re.match("^%s$" % self.what.replace('.', '\.').replace('*', '.+'), what) != None
 
 class Advice:
-    def __init__(self, keyword, priority=1, locatorSameAsPointcut=False, kw_args=None):
+    def __init__(self, keyword, priority=1, locatorSameAsJoinPoint=False, kw_args=None):
         self.keyword = keyword
-        self.locator_same_as_pointcut = locatorSameAsPointcut
+        self.locator_same_as_join_point = locatorSameAsJoinPoint
         self.priority = priority
         self.kw_args = kw_args
 
@@ -145,8 +145,8 @@ class Advice:
             raise ValueError('keyword: "%s" is not string type!' % value)
         if name == 'priority' and not isinstance(value, int):
             raise ValueError('priority: "%s" is not integer type!' % value)
-        if name == 'locator_same_as_pointcut' and not isinstance(value, bool):
-            raise ValueError('locatorSameAsPointcut: "%s" is not boolean type!' % value)
+        if name == 'locator_same_as_join_point' and not isinstance(value, bool):
+            raise ValueError('locatorSameAsJoinPoint: "%s" is not boolean type!' % value)
         object.__setattr__(self, name, value)
 
 class ActionController:
@@ -284,7 +284,7 @@ class AspectParser():
 
     def sorted_keywords(self, action_list):
         sorted_action = sorted(action_list, key=lambda k: k['advice'].priority)
-        return [(action['advice'].keyword, action['advice'].locator_same_as_pointcut, action['advice'].kw_args) for action in sorted_action]
+        return [(action['advice'].keyword, action['advice'].locator_same_as_join_point, action['advice'].kw_args) for action in sorted_action]
 
 if __name__ == '__main__':
     unittest.main()

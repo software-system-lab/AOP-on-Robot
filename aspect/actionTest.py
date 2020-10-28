@@ -82,13 +82,13 @@ class TestPaserAspect(unittest.TestCase):
             keyword_status_is_fail = parse.search_in_post_action_map('post', 'Open Facebook And Login', [], 'fail')
             self.assertEqual(len(keyword_status_is_fail), 2)
 
-    def test_locatorSameAsPointcut(self):
+    def test_locatorSameAsJoinPoint(self):
         with patch('__main__.AspectParser.read_aspect_files') as fake_data:
 
             fake_data.return_value = [
                 {
                     "pointcut":{"when": "pre", "what":"SeleniumLibrary.Click Element"},
-                    "advice":{"keyword":"Wait Until Element Is Shown On page", "locatorSameAsPointcut":True}
+                    "advice":{"keyword":"Wait Until Element Is Shown On page", "locatorSameAsJoinPoint":True}
                 }
             ]
 

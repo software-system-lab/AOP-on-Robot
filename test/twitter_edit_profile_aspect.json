@@ -18,10 +18,10 @@
    "advice":{"keyword":"Wait Until List Page Is Opened"}
 }, {
    "pointcut":{"when":"pre", "what":"SeleniumLibrary.Input Text"},
-   "advice":{"keyword":"Wait Until Input Field Is Enable", "locatorSameAsPointcut":true}
+   "advice":{"keyword":"Wait Until Input Field Is Enable", "locatorSameAsJoinPoint":true}
 }, {
     "pointcut":{"when":"pre", "what":"SeleniumLibrary.Click Element"},
-    "advice":{"keyword":"Wait Until Element Is Shown On Page", "locatorSameAsPointcut":true}
+    "advice":{"keyword":"Wait Until Element Is Shown On Page", "locatorSameAsJoinPoint":true}
 }, {
     "pointcut":{"when":"post", "what":"Edit Profile"},
     "advice":{"keyword":"Wait Until Profile Is Saved"}

@@ -91,7 +91,7 @@
       "pointcut": { "what": "Element Should Be .+", "when": "pre" },
       "advice": {
         "keyword": "Wait Until Element Is Visible",
-        "locatorSameAsPointcut": true
+        "locatorSameAsJoinPoint": true
       }
     }
   ]

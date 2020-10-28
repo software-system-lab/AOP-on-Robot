@@ -197,7 +197,7 @@ class ActionController:
 class KeywordLibraryLoader():
     def __init__(self):
         self.builtin = BuiltIn()
-        self.library_name = self.get_all_library_name()
+        # self.library_name = self.get_all_library_name()
         self.resouce_path = self.get_all_resource_path()
 
     def parse_library_reference_files(self, file_name):
@@ -221,7 +221,7 @@ class KeywordLibraryLoader():
         return [resource_path.replace("\\","/") for resource_path in all_resource_path]
 
     def import_related_resources_and_librarys(self):
-        [self.load_library(path) for path in self.library_name]
+        # [self.load_library(path) for path in self.library_name]
         [self.builtin.import_resource(path) for path in self.resouce_path]
 
     def load_library(self, library_name):

@@ -3,3 +3,6 @@
 -P ./..
 -b debug.txt
 --listener aspect.actionListener:True
+-e original
+-F robot
+-P ../../

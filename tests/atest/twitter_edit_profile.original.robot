@@ -2,6 +2,7 @@
 Library    SeleniumLibrary
 Library    TwitterLibrary
 Resource    ./locators/twitter.robot
+Force Tags    original
 Suite Setup    Open Brower And Login
 Suite Teardown    Close Browser
 

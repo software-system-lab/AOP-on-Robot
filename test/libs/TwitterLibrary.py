@@ -60,3 +60,13 @@ class TwitterLibrary:
         self.selenium.wait_until_page_does_not_contain_element(closeModalButton, 3)
         addAvaterButton = self.get_locator('addAvaterButton')
         self.selenium.wait_until_page_does_not_contain_element(addAvaterButton, 3)
+
+    @keyword(name="Login With User Id")
+    def login_with_user_id(self):
+        try:
+            loginWarningMessage = self.builtIn.get_variable_value('${loginWarningMessage}')
+            self.selenium.wait_until_element_is_visible(loginWarningMessage)
+        except:
+            userId = self.builtIn.get_variable_value('${userId}')
+            userPassword = self.builtIn.get_variable_value('${userPassword}')
+            self.builtIn.run_keyword('User Login', userId, userPassword)

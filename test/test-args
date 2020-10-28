@@ -2,4 +2,4 @@
 -P ./libs
 -P ./..
 -b debug.txt
---listener aspect.actionListener
+--listener aspect.actionListener:True

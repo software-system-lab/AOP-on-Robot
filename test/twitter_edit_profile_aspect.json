@@ -1,10 +1,13 @@
 [{
    "pointcut":{"when":"post", "what":"Open Brower And Login"},
    "advice":{"keyword":"Wait Until Main Page Is Opened"}
-},{
+}, {
+   "pointcut":{"when":"post", "what":"Open Brower And Login", "status": "FAIL"},
+   "advice":{"priority": 2, "keyword":"Login With User Id"}
+}, {
    "pointcut":{"when":"post", "what":"Open Login Page"},
    "advice":{"keyword":"Wait Until Login Page Is Opened"}
-},{
+}, {
    "pointcut":{"when":"post", "what":"Click Edit Profile Button"},
    "advice":{"keyword":"Wait Until Edit Profile Page Is Opened"}
 }, {
@@ -19,7 +22,7 @@
 }, {
     "pointcut":{"when":"pre", "what":"SeleniumLibrary.Click Element"},
     "advice":{"keyword":"Wait Until Element Is Shown On Page", "locatorSameAsPointcut":true}
-},{
+}, {
     "pointcut":{"when":"post", "what":"Edit Profile"},
     "advice":{"keyword":"Wait Until Profile Is Saved"}
 }]
